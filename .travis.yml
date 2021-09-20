@@ -9,7 +9,7 @@ before_install:
 
 # run tests
 script:
-  - docker run -e CI=true bencotton/react-test npm test
+  - docker run -e CI=true bencotton/react-test npm test -- --coverage
 
 # build prod versions of all projects
 after_success:
@@ -25,3 +25,14 @@ after_success:
   - docker push bencotton/multi-server
   - docker push bencotton/multi-worker
 # tell elastic beanstalk to update
+deploy:
+  provider: elasticbeanstalk
+  region: 'us-east-2'
+  app: 'multi-docker'
+  env: 'MultiDocker-env'
+  bucket_name: 'elasticbeanstalk-us-east-2-093784922600'
+  bucket_path: 'docker-multi'
+  on:
+    branch: master
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: $AWS_SECRET_KEY
