@@ -9,7 +9,7 @@ before_install:
 
 # run tests
 script:
-  - docker run -e CI=true USERNAME/react-test npm test
+  - docker run -e CI=true bencotton/react-test npm test
 
 # build prod versions of all projects
 after_success:
